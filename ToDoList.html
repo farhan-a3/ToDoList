@@ -14,12 +14,12 @@
         <h1>TO DO LIST</h1>
         <div id="input">
             <input id="input-field" type="text" placeholder="Enter a task">
-            <button class="w3-button w3-circle w3-teal" onclick="addTask()">+</button>
+            <button id="input-button" class="w3-button w3-circle w3-teal">+</button>
         </div>
         <div id="task-list"></div>
         <div id="footer">
-            <progress></progress>
-            <button class="w3-button w3-teal" disabled>Remove checked</button>
+            <progress value="50" max="100"></progress>
+            <button id="remove-checked-button" class="w3-button w3-teal">Remove checked</button>
         </div>
     </div>
 </body>
