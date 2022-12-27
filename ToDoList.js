@@ -1,38 +1,56 @@
-const input = document.getElementById("inputField");
-const list = document.getElementById("list");
+const input = document.querySelector("#input-field");
+const taskList = document.querySelector("#task-list");
 
-input.addEventListener("keypress", addTask);
+let taskNumber = 0;
 
 function addTask(event) {
-    if (event.key === "Enter" && input.value.length != 0) {
-        let row = document.createElement("div");
-        let task = document.createElement("li");
-        let cross = document.createElement("img");
+    if (input.value.trim().length != 0) {
+        taskNumber++;
 
-        task.class = "uncrossed";
-        task.innerText = input.value;
-        cross.src = "images/cross.png";
-        cross.style.maxWidth = "25px";
-        cross.style.maxHeight = "25px";
+        // create div for the task
+        let taskDiv = document.createElement("div");
+        taskDiv.setAttribute("class", "task-" + taskNumber);
 
-        row.appendChild(task);
-        row.appendChild(cross);
-        list.appendChild(row);
-        input.value = "";
+        // task div styling
+        taskDiv.style.display = "flex";
+        taskDiv.style.alignItems = "center";
+        taskDiv.style.flexWrap = "wrap";
+        taskDiv.style.width = "100%";
 
-        task.addEventListener("click", function() {
-            if (task.class === "uncrossed") {
+        // create elements to go in the task div
+        let checkbox = document.createElement("input");
+        let task = document.createElement("p");
+        let editButton = document.createElement("button");
+        let removeButton = document.createElement("button");
+        
+        // set element attributes
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked == true){
                 task.style.textDecoration = "line-through";
-                task.class = "crossed";
             } else {
                 task.style.textDecoration = "none";
-                task.class = "uncrossed";
             }
         });
-
-        cross.addEventListener("click", function() {
-            task.remove();
-            cross.remove();
+        task.innerText = input.value;
+        task.style.marginRight = "auto";
+        editButton.innerText = "Edit";
+        editButton.addEventListener("click", () => {
+            task.setAttribute("contenteditable", "true");
         });
+        removeButton.innerText = "x";
+        removeButton.addEventListener("click", () => {taskDiv.remove()});
+
+        // add all the elements to the task div
+        taskDiv.append(checkbox, task, editButton, removeButton);
+
+        // add the task to the task list and clear the input field
+        taskList.append(taskDiv);
+        input.value = "";
     }
+}
+
+
+function editTask(task) {
+    
 }
