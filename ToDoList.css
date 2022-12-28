@@ -14,12 +14,7 @@ body {
 h1 {
     text-align: center;
     margin: 0;
-}
-
-progress {
-    height: 20px;
-    border-radius: 0;
-}
+}  
 
 #input-field {
     width: 300px;
@@ -48,6 +43,28 @@ progress {
     flex-direction: column;
     width: 100%;
 }
+
+#progress-bar {
+    width: 250px;
+    background-color: lightgrey;
+    position: relative;
+    border: 1px solid black;
+}
+
+#progress {
+    width: 0%;
+    background-color: lightgreen;
+    height: 25px;
+}
+
+#progress-label {
+    font-size: 0.9em;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 #footer {
     display: flex;

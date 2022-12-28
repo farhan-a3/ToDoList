@@ -9,10 +9,12 @@ document.querySelector("#input-field").addEventListener("keypress", (event) => {
 let removeCheckedButton = document.querySelector("#remove-checked-button");
 removeCheckedButton.addEventListener("click", removeCheckedTasks);
 removeCheckedButton.disabled = true;
+let progressBarLabel = document.querySelector("#progress-label");
 
 function addTask() {
     if (input.value.trim().length != 0) {
         taskCounter++;
+        updateProgressBar();
 
         // create div for the task
         let taskDiv = document.createElement("div");
@@ -37,14 +39,17 @@ function addTask() {
                 task.style.textDecoration = "line-through";
                 task.className = "checked";
                 checkedTaskCount++;
+                updateProgressBar();
             } else {
                 task.style.textDecoration = "none";
                 task.className = "unchecked";
                 checkedTaskCount--;
+                updateProgressBar();
             }
 
             if (checkedTaskCount > 0) removeCheckedButton.disabled = false; 
             else removeCheckedButton.disabled = true;
+            updateProgressBar();
         });
         task.innerText = input.value;
         task.className = "unchecked";
@@ -58,8 +63,10 @@ function addTask() {
         removeButton.innerText = "x";
         removeButton.addEventListener("click", () => {
             removeTask(taskDiv);
+            if (checkbox.checked) checkedTaskCount--;
             taskCounter--;
             if (taskCounter == 0) removeCheckedButton.disabled = true;
+            updateProgressBar();
         });
 
         // add all the elements to the task div
@@ -84,11 +91,24 @@ function removeCheckedTasks() {
     tasksRemoved = 0;
 
     for (task of allTasks) {
-        if (task.firstChild.checked) task.remove();
-        tasksRemoved++;
+        if (task.firstChild.checked) {
+            task.remove();
+            tasksRemoved++;
+        }
     }
     
     taskCounter -= tasksRemoved;
-    checkedTaskCount = 0;
+    checkedTaskCount -= tasksRemoved;
     removeCheckedButton.disabled = true;
+    updateProgressBar();
+}
+
+function updateProgressBar() {
+    if (taskCounter == 0) {
+        progressBarLabel.innerText = "No tasks";
+        document.querySelector("#progress").style.width = "0%";
+    } else {
+        progressBarLabel.innerHTML = "<strong>" + checkedTaskCount + "</strong> of <strong>" + taskCounter + "</strong> tasks done";
+        document.querySelector("#progress").style.width = (checkedTaskCount / taskCounter) * 100 + "%";
+    }
 }
