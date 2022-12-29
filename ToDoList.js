@@ -34,6 +34,7 @@ function addTask() {
         
         // set element attributes
         checkbox.type = "checkbox";
+        checkbox.style.accentColor = "lightgreen";
         checkbox.addEventListener("change", () => {
             if (checkbox.checked){
                 task.style.textDecoration = "line-through";
@@ -51,16 +52,25 @@ function addTask() {
             else removeCheckedButton.disabled = true;
             updateProgressBar();
         });
+
         task.innerText = input.value;
         task.className = "unchecked";
         task.style.marginRight = "auto";
+        task.style.margin = "0 auto 0 10px"
         task.addEventListener("keypress", (event) => {if (event.key === "Enter") stopEditingTask(task)});
         task.addEventListener("blur", () => stopEditingTask(task));
+
         editButton.innerText = "Edit";
+        editButton.classList.add("w3-button");
+        editButton.classList.add("w3-teal");
+        editButton.style.margin = "10px";
         editButton.addEventListener("click", () => {
             task.contentEditable = "true";
         });
-        removeButton.innerText = "x";
+
+        removeButton.innerText = "X";
+        removeButton.classList.add("w3-button");
+        removeButton.classList.add("w3-teal");
         removeButton.addEventListener("click", () => {
             removeTask(taskDiv);
             if (checkbox.checked) checkedTaskCount--;
